@@ -4,40 +4,49 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Scanner;
 
 public class FirstJavaProgram {
-	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException {
-		Student sob = new Student("John Smith");
-		//Testing functions of Student Class
-		System.out.println("Student Name: "+sob.name);
-		System.out.println("Current Score: "+sob.currScore);
-		System.out.println("High Score: "+sob.highScore);
-		sob.setCurrScore(10);
-		sob.setHighScore();
-		System.out.println("Student Name: "+sob.name);
-		System.out.println("Current Score: "+sob.currScore);
-		System.out.println("High Score: "+sob.highScore);
-		sob.setCurrScore(5);
-		sob.setHighScore();
-		System.out.println("Student Name: "+sob.name);
-		System.out.println("Current Score: "+sob.currScore);
-		System.out.println("High Score: "+sob.highScore);
-		//Outputting detailed student file data into a txt file
+	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException {		
+		HashMap<String, Student> studentData = new HashMap();
+		//Reading in Students.txt objects before program starts
+		try {
+			FileInputStream fin = new FileInputStream("Students.txt");
+			ObjectInputStream ois = new ObjectInputStream(fin);
+			while (fin!=null) {
+			Student temp = (Student) ois.readObject();
+			studentData.put(temp.name, temp);
+			}
+			ois.close();
+		} catch (Exception ex ) {}
+		
+		Scanner scan = new Scanner(System.in);
+		String name;
+		
+		//If user already exists access profile in map or else create new one then add it to map data
+		System.out.println("Please enter your name: ");
+		name = scan.nextLine();
+		if (!studentData.containsKey(name)) {
+			System.out.println("Creating new profile...");
+			Student curr = new Student(name);
+			studentData.put(curr.name, curr);
+		} 
+		else {
+			System.out.println("Welcome back " + name);
+			Student curr = studentData.get(name);
+		}
+		
+		//Should be at end of program. Takes all studentData and converts it back into Students.txt
 		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Students.txt"));
-		out.writeObject(sob);
-		//Creating a custom student to add to the file
-		Student sob2 = new Student("Mary Sue");
-		sob2.setCurrScore(20);
-		sob2.setHighScore();
-		sob2.setCurrScore(10);
-		sob2.setHighScore();
-		out.writeObject(sob2);
-		//Reading in from text file
-		ObjectInputStream in = new ObjectInputStream(new FileInputStream("Students.txt"));
-		Student sobReadIn = (Student) in.readObject();
-		System.out.println("Student name 1 is " + sobReadIn.name);
-		Student sobReadIn2 = (Student) in.readObject();
-		System.out.println("Student name 2 is " + sobReadIn2.name);
+		Iterator it = studentData.entrySet().iterator();
+		
+		while (it.hasNext()) {
+			Map.Entry mapElement = (Map.Entry)it.next();
+			out.writeObject(mapElement.getValue());
+		}
 	}
 
 }
