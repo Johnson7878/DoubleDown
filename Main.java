@@ -1,14 +1,7 @@
-import java.util.Random;
-import java.util.Scanner;
-import java.util.Random;
-import java.util.Scanner;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
-import java.math.BigDecimal;
+import java.util.*;
 class Main {
   
-  public static void main(String[] args)  throws ScriptException{
+  public static void main(String[] args){
   
     while(true){
         greetUser();
