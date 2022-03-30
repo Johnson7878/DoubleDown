@@ -11,13 +11,15 @@ public class solver {
     
         for (int i = 0; i < equation.length(); i++) {
             char currChar = equation.charAt(i);
+            boolean isdigit = Character.isDigit(currChar);
+            boolean isSpace = Character.isWhitespace(currChar);
 
             //This gets the integer value of a number in char format
-            if (Character.isDigit(currChar)) {
+            if (isdigit) {
                 currNum = char_to_int(currNum, currChar);
             }
           
-            if (!Character.isDigit(currChar) && !Character.isWhitespace(currChar) || i == equation.length() - 1) {
+            if (!isdigit && !isSpace || i == equation.length() - 1) {
                 switch (operation){
                   case '-': stack.push(-currNum); break;
                   case '+': stack.push(currNum); break;
