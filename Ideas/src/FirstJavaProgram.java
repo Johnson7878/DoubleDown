@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.*;
-
+//first fully functional back end build
 class FirstJavaProgram {
   
   public static void main(String[] args)  throws ScriptException, FileNotFoundException, IOException{
@@ -73,7 +73,7 @@ class FirstJavaProgram {
     System.out.println("Welcome to our math game!"); 
   }
 
-  private static int askUserLevel(){
+  static int askUserLevel(){
     Scanner console_level = new Scanner(System.in);  // Create a Scanner object
     System.out.println("Choose a difficulty level.");
     int level = console_level.nextInt();
@@ -81,7 +81,7 @@ class FirstJavaProgram {
     
   }
   
-  private static String askUserName() {
+  static String askUserName() {
 	  Scanner nameIn = new Scanner(System.in);
 	  System.out.println("Please enter your name: ");
 	  String name = nameIn.nextLine();

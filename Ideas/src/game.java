@@ -1,27 +1,32 @@
-import java.util.Random;
 import java.util.Scanner;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
-import java.math.BigDecimal;
+
+
 public class game {
   private static int hp;
   private static int score = 0;
   private static int streak = 0;
   public static int level = 1;
 
+  //constructor
   public game(int level1){
     level = level1;
   }
-  public static void start_game(Student st) throws ScriptException{
+
+  
+  public static void start_game(Student st){
     hp = 3;
+    st.currScore = 0;
+
+    //Continue playing the game
     while(hp>0){
+      //levelup
       if (streak > 3){
         levelup();
       }
+      
       //generate and print equation
       String equation = generator.createEquation(level);
-      System.out.println(equation);
+      System.out.println("\nSolve this!: " + equation);
 
       //ask for equation answer
       int user_answer = get_user_answer();
@@ -36,12 +41,14 @@ public class game {
         System.out.println("Congragulation thats correct! \nStreak: " + streak + " Score: " + score + " HP: " +hp);
         continue;
       }
+      
       hp--;
       score--;
       streak=0;
       st.currScore = score;
       
       System.out.println("Sorry that's not correct! \nStreak: " + streak + " Score: " + score + " HP: " + hp);
+      
     }
     st.setHighScore();
   }
@@ -53,6 +60,7 @@ public static int get_user_answer(){
 }
 
   public static void levelup(){
+    System.out.println("Congragulations! That's a winning streak. Levelup!! Resetting health!\n");
     level++;
     hp=3;
   }
