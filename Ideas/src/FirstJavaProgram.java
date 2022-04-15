@@ -149,7 +149,7 @@ class FirstJavaProgram implements ActionListener {
 	  logInPl.add(skDisp);
 	  
 	  eqDisp = new JLabel("0");
-	  eqDisp.setBounds(400, 200, 200, 200);
+	  eqDisp.setBounds(340, 200, 600, 200);
 	  eqDisp.setAlignmentX(logInPl.CENTER_ALIGNMENT);
 	  eqDisp.setAlignmentY(logInPl.CENTER_ALIGNMENT);
 	  eqDisp.setVisible(false);
