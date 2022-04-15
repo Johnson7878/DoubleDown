@@ -476,6 +476,9 @@ class FirstJavaProgram implements ActionListener {
 					int foo = Integer.parseInt(inputTemp);
 					setNum(foo);
 					wait = true;
+				} else {
+					entMsg.setText("ENTER INTGER VALUE");
+					entMsg.setVisible(true);
 				}
 			} else if (e.getSource() == contBut) {
 				wait = true;
