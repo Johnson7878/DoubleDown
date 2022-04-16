@@ -1,3 +1,2 @@
 # DoubleDown
-Team DoubleDown is working to create a game that allows children to master common mathematical operations (such as PEMDAS). Team Double Down is one of many within CEN3031.
-This section will contain the folders that make up the entire project.
+This branch contains the current, most up-to-date version of the NumMy applicaiton, made by team 88.
