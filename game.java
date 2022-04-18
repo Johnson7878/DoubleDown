@@ -19,7 +19,7 @@ public class game {
     //Continue playing the game
     while(hp>0){
       //levelup
-      if (streak > 3){
+      if (streak%3==0){
         levelup();
       }
       
@@ -57,6 +57,6 @@ public static int get_user_answer(){
     System.out.println("Congragulations! That's a winning streak. Levelup!! Resetting health!\n");
     level++;
     hp=3;
-    streak == 0;
+    
   }
 }
