@@ -30,8 +30,9 @@ public class generator {
         String equation = "";
         char operator;
         int operand;
-        int n = level +2;
-        int range = (level/5 +1 *10);
+        if(level==0){level=1;}
+        int n = level +1;
+        int range = (level/3 +1 *10);
          for (int i = 0; i < n; i++) {
            if(i!=n-1){
              operator = operators.charAt(randomGenerator.nextInt(3));
