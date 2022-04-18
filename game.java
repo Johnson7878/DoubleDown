@@ -19,7 +19,7 @@ public class game {
     //Continue playing the game
     while(hp>0){
       //levelup
-      if (streak%3==0){
+      if (streak%3==0 && streak != 0){
         levelup();
       }
       
