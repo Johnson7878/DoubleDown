@@ -5,6 +5,7 @@ import java.util.Scanner;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,7 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Spring;
 import java.awt.Component;
-
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import java.util.concurrent.TimeUnit;
 import java.math.BigDecimal;
 import java.util.Map;
@@ -21,6 +23,7 @@ import java.util.Iterator;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -30,10 +33,18 @@ import java.io.ObjectOutputStream;
 import java.util.*;
 //first fully functional back end build
 class FirstJavaProgram implements ActionListener {
+	//declaration of labels, frames, panel, and images that define the GUI
+	private static ImageIcon image = new ImageIcon("numMy_logo.png");
+	private static ImageIcon image_small = new ImageIcon("numMy_logo_small.png");
+	private static ImageIcon Win = new ImageIcon("correct.png");
+	private static ImageIcon lose = new ImageIcon("wrong.png");
 	private static JPanel logInPl;
 	private static JFrame logInFm;
 	private static JLabel logInLab;
 	private static JLabel logInLab2;
+	private static JLabel logInLab3;
+	private static JLabel winLabel;
+	private static JLabel loseLabel;
 	private static JLabel hpText;
 	private static JLabel hpDisp;
 	private static JLabel scText;
@@ -59,12 +70,13 @@ class FirstJavaProgram implements ActionListener {
 	private static JButton logInBut;
 	private static JButton ansBut;
 	private static JButton contBut;
-	
 	private static String input;
 	private static String inputTemp;
 	public static int inpuNum;
 	public static boolean wait = false;
 	
+	
+	//declare setter and getter for string input and number generation
 	public static int getNum() {
 		return FirstJavaProgram.inpuNum;
 	}
@@ -81,6 +93,8 @@ class FirstJavaProgram implements ActionListener {
 	}
 	
   public static void main(String[] args)  throws ScriptException, FileNotFoundException, IOException{
+	  //Initialize the window settings
+	  System.out.println(System.getProperty("java.runtime.version"));
 	  logInPl = new JPanel();
 	  logInFm = new JFrame();
 	  logInFm.setSize(1000,700);
@@ -88,17 +102,32 @@ class FirstJavaProgram implements ActionListener {
 	  logInFm.setVisible(true);
 	  logInFm.setResizable(false);
 	  logInFm.add(logInPl);
-	  
 	  logInPl.setLayout(null);
 	  
+	  
+	  
+	  //*******BEGINNING OF LOGIN***********//
+	  //Set the icon of the window, the window name, and the image display within the login screen
+	  logInFm.setIconImage(image_small.getImage());
+	  logInFm.setTitle("NumMy.exe");
+	  logInLab3 = new JLabel();
+	  logInLab3.setLocation(430,150);
+	  logInLab3.setSize(200,200);
+	  logInLab3.setIcon(image_small);
+	  logInPl.add(logInLab3);
+	  
+	  //set username label for login
 	  logInLab = new JLabel("Username:");
 	  logInLab.setBounds(330,350,80,25);
 	  logInPl.add(logInLab);
 	  
+	  //set difficulty level label
 	  logInLab2 = new JLabel("Difficulty Level:");
 	  logInLab2.setBounds(300,380,160,25);
 	  logInPl.add(logInLab2);
 	  
+	  
+	  //set textfield boundaries for username and difficulty level input
 	  userText = new JTextField();
 	  userText.setBounds(400,350,165,25);
 	  logInPl.add(userText);
@@ -107,47 +136,59 @@ class FirstJavaProgram implements ActionListener {
 	  userNum.setBounds(400,380,165,25);
 	  logInPl.add(userNum);
 	  
+	  
+	  //set the submission button
 	  logInBut = new JButton("Submit");
 	  logInBut.setBounds(430,410,105,25);
 	  logInBut.addActionListener(new FirstJavaProgram());
 	  logInPl.add(logInBut);
 	  
+	  //***********  END OF LOGIN INIT *************//
+	
+	  //*********** START OF GAME SCREEN************//
+	  //init the Health points
 	  hpText = new JLabel("HP:");
 	  hpText.setBounds(390,20,165,25);
 	  hpText.setFont(new Font("",Font.PLAIN,20));
 	  hpText.setVisible(false);
 	  logInPl.add(hpText);
 	  
+	  //init to default (0)
 	  hpDisp = new JLabel("0");
 	  hpDisp.setBounds(450,20,165,25);
 	  hpDisp.setFont(new Font("",Font.PLAIN,20));
 	  hpDisp.setVisible(false);
 	  logInPl.add(hpDisp);
 	  
+	  //init the score 
 	  scText = new JLabel("Score:");
 	  scText.setBounds(690,20,165,25);
 	  scText.setVisible(false);
 	  scText.setFont(new Font("",Font.PLAIN,20));
 	  logInPl.add(scText);
 	  
+	  //init to default (0)
 	  scDisp = new JLabel("0");
 	  scDisp.setBounds(750, 20, 165, 25);
 	  scDisp.setVisible(false);
 	  scDisp.setFont(new Font("",Font.PLAIN,20));
 	  logInPl.add(scDisp);
 	  
+	  //init the streak
 	  skText = new JLabel("Streak:");
 	  skText.setBounds(85, 25, 165, 25);
 	  skText.setVisible(false);
 	  skText.setFont(new Font("",Font.PLAIN,20));
 	  logInPl.add(skText);
 	  
+	  //init to default (0)
 	  skDisp = new JLabel("0");
 	  skDisp.setBounds(150,25,165,25);
 	  skDisp.setFont(new Font("",Font.PLAIN,20));
 	  skDisp.setVisible(false);
 	  logInPl.add(skDisp);
 	  
+	  //init to default (0)
 	  eqDisp = new JLabel("0");
 	  eqDisp.setBounds(340, 200, 600, 200);
 	  eqDisp.setAlignmentX(logInPl.CENTER_ALIGNMENT);
@@ -156,23 +197,46 @@ class FirstJavaProgram implements ActionListener {
 	  eqDisp.setFont(new Font("",Font.PLAIN,30));
 	  logInPl.add(eqDisp);
 	  
+	  //init user answer textfield
 	  userAns = new JTextField();
 	  userAns.setBounds(380,450,165,25);
 	  userAns.setVisible(false);
 	  logInPl.add(userAns);
 	  
+	  //init submit button
 	  ansBut = new JButton("Submit");
 	  ansBut.setBounds(570,450,165,25);
 	  ansBut.setVisible(false);
 	  //ansBut.addActionListener(new FirstJavaProgram());
 	  logInPl.add(ansBut);
 	  
+	  //init the win light
+	  winLabel = new JLabel();
+	  winLabel.setLocation(0,532);
+	  winLabel.setSize(200,200);
+	  winLabel.setIcon(Win);
+	  logInPl.add(winLabel);
+	  winLabel.setVisible(false);
+	  
+	  //init the lose light
+	  loseLabel = new JLabel();
+	  loseLabel.setLocation(820,532);
+	  loseLabel.setSize(200,200);
+	  loseLabel.setIcon(lose);
+	  logInPl.add(loseLabel);
+	  loseLabel.setVisible(false);
+	  
+	  //************** END OF GAME SCREEN INIT ******************//
+	  
+	  //************** START OF LEADERBOARD INIT ****************//
+	  //init Leaderboard title
 	  lbText = new JLabel("Leaderboard:");
 	  lbText.setBounds(370,-20,200,200);
 	  lbText.setFont(new Font("",Font.PLAIN,30));
 	  lbText.setVisible(false);
 	  logInPl.add(lbText);
 	  
+	  //init various placeholders for the leaderboard
 	  pos1 = new JLabel("x");
 	  pos1.setBounds(360,20,200,200);
 	  pos1.setFont(new Font("",Font.PLAIN,20));
@@ -238,20 +302,25 @@ class FirstJavaProgram implements ActionListener {
 	  entMsg.setVisible(false);
 	  logInPl.add(entMsg);
 	  
+	  //init continue button to move away from leaderboard
 	  contBut = new JButton("Continue");
 	  contBut.setBounds(400, 300, 165, 25);
 	  contBut.addActionListener(new FirstJavaProgram());
 	  contBut.setVisible(false);
 	  logInPl.add(contBut);
 	  
+	  //init the score strings
 	  String tempS = "";
 	  int tempI = 0;
 	  String lbValues[] = new String[5];
 	  String lbScore[] = new String[5];
 	  
+	  
+	  //while the screen is Idle or not in the game/leaderboard screen, output our login screen
 	  while (true) {
 	  logInLab.setVisible(true);
 	  logInLab2.setVisible(true);
+	  logInLab3.setVisible(true);
 	  logInBut.setVisible(true);
 	  userNum.setVisible(true);
 	  userText.setVisible(true);
@@ -277,6 +346,7 @@ class FirstJavaProgram implements ActionListener {
 		} catch (Exception ex ) {}
 		String name = getInput();
 		Student curr;
+		
 		//Fetch or create new user profile
 		if (!studentData.containsKey(name)) {
 			System.out.println("Creating new profile...");
@@ -300,16 +370,28 @@ class FirstJavaProgram implements ActionListener {
 		
         int level = getNum();
         
+        //set the login values to false once we are past the login screen
         logInLab.setVisible(false);
         logInLab2.setVisible(false);
+        logInLab3.setVisible(false);
         logInBut.setVisible(false);
         userNum.setVisible(false);
         userText.setVisible(false);
         
-        
+        //start the game
         game game = new game(level);
-        game.start_game(curr, logInFm, logInPl, hpText, hpDisp, scText, scDisp, skText, skDisp, eqDisp, userAns, ansBut);
+        game.start_game(curr, logInFm, logInPl, hpText, hpDisp, scText, scDisp, skText, skDisp, eqDisp, userAns, ansBut, winLabel, loseLabel);
        
+        /*//answer is correct
+        if(game.statusFlag == 1) {
+        	winLabel.setVisible(true);
+        	loseLabel.setVisible(false);
+        }
+        //answer is incorrect
+        if(game.statusFlag == 2) {
+        	loseLabel.setVisible(true);
+        	winLabel.setVisible(false);
+        }*/
         wait = false;
         Map<String, Integer> sortedMap = MapSort(studentData);
 		//printMap(sortedMap);
@@ -324,6 +406,7 @@ class FirstJavaProgram implements ActionListener {
 			tempI++;
 		}
         
+        //set gamescreen values to false, once we are past the game screen
 		hpText.setVisible(false);
 		hpDisp.setVisible(false);
 		scText.setVisible(false);
@@ -333,7 +416,10 @@ class FirstJavaProgram implements ActionListener {
 		eqDisp.setVisible(false);
 		userAns.setVisible(false);
 		ansBut.setVisible(false);
+		winLabel.setVisible(false);
+		loseLabel.setVisible(false);
         
+		//set the leaderboard values to true, once we are displaying the leaderboard
         pos1.setText(lbValues[0]);
         pos1.setVisible(true);
         pos2.setText(lbValues[1]);
@@ -365,6 +451,7 @@ class FirstJavaProgram implements ActionListener {
 		    }
 	  }
   	  
+  	  //output leaderboard
         ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Students.txt"));
 		Iterator it = studentData.entrySet().iterator();
 		
@@ -372,6 +459,7 @@ class FirstJavaProgram implements ActionListener {
 			Map.Entry mapElement = (Map.Entry)it.next();
 			out.writeObject(mapElement.getValue());
 		}
+		//set leaderboard to false, once we are on the login screen (pressed continue)
 		wait = false;
 		pos1.setVisible(false);
         pos2.setVisible(false);
@@ -419,18 +507,8 @@ class FirstJavaProgram implements ActionListener {
 		return srtMap;
 	}
 	
-	//this function takes in the current map, and prints it (in descending order)
-	/*
-	 * static void printMap(Map<String, Integer> sortedMap) { System.out.println();
-	 * System.out.println("Leaderboard");
-	 * System.out.println("------------------------------------------");
-	 * for(Map.Entry<String, Integer> iter: sortedMap.entrySet()) {
-	 * 
-	 * System.out.println(iter.getKey() + " " + iter.getValue());
-	 * 
-	 * } System.out.println("------------------------------------------"); }
-	 */
-		
+	
+		//caseses to catch faulty input
 		public static boolean isInteger(String str) {
 		    if (str == null) {
 		        return false;

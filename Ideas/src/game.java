@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 
 
 public class game implements ActionListener {
+  public int statusFlag = 0;
   private static int hp;
   private static int score = 0;
   private static int streak = 0;
@@ -22,11 +23,12 @@ public class game implements ActionListener {
   }
 
   
-  public void start_game(Student st, JFrame frame, JPanel panel, JLabel hpText, JLabel hpDisp, JLabel scText, JLabel scDisp, JLabel skText, JLabel skDisp, JLabel eqDisp, JTextField userAns, JButton ansBut){
+  public void start_game(Student st, JFrame frame, JPanel panel, JLabel hpText, JLabel hpDisp, JLabel scText, JLabel scDisp, JLabel skText, JLabel skDisp, JLabel eqDisp, JTextField userAns, JButton ansBut, JLabel inputWin, JLabel inputLose){
     hp = 3;
     st.currScore = 0;
     Boolean delay = true;
     int ans = 0;
+    int temp = 0;
     //hpText.add("HP:");
     hpText.setVisible(true);
     hpDisp.setVisible(true);
@@ -48,10 +50,10 @@ public class game implements ActionListener {
     //Continue playing the game
     while(hp>0){
       //levelup
-      if (streak > 3){
-        levelup();
-        hpDisp.setText("3");
-      }
+    if (streak%3==0 && streak != 0){
+            levelup();
+            hpDisp.setText("3");
+     }
       
       //generate and print equation
       String equation = generator.createEquation(level);
@@ -75,6 +77,8 @@ public class game implements ActionListener {
 
       //is user answer correct?
       if(user_answer == actual_answer){
+    	inputWin.setVisible(true);
+    	inputLose.setVisible(false);
         streak++;
         score++;
         scDisp.setText(Integer.toString(score));
@@ -95,23 +99,21 @@ public class game implements ActionListener {
       st.currScore = score;
       delay = false;
       userAns.setText("");
-      
+      if (temp!= 0) {
+      inputWin.setVisible(false);
+  	  inputLose.setVisible(true);
+      }
       System.out.println("Sorry that's not correct! \nStreak: " + streak + " Score: " + score + " HP: " + hp);
-      
+      temp++;
     }
     st.setHighScore();
     st.setCurrScore(0);
     score = 0;
     streak = 0;
+    temp = 0;
     //@Override
   }
   
-public static int get_user_answer(){
-  Scanner console_answer = new Scanner(System.in);  // Create a Scanner object
-  System.out.println("What is your answer?  ");
-  return console_answer.nextInt();
-}
-
   public static void levelup(){
     System.out.println("Congragulations! That's a winning streak. Levelup!! Resetting health!\n");
     level++;

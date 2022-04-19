@@ -20,17 +20,33 @@ public class generator {
     }
 
     public static String createEquation(int level) {
+
+        return generate(level);
+        // return generate((level-1)/3+2,10, level%3 );
+    
+    }
+
+  public static String generate(int level){
         String equation = "";
         char operator;
         int operand;
-        for (int i = 0; i < level; i++) {
-            operator = operators.charAt(randomGenerator.nextInt(opeatorStringLength));
-            operand = randomGenerator.nextInt(100);
+        if(level==0){level=1;}
+        int n = level +1;
+        int range = (level/3 +1 *10);
+         for (int i = 0; i < n; i++) {
+           if(i!=n-1){
+             operator = operators.charAt(randomGenerator.nextInt(3));
+           }
+           else{
+             operator = ' ';
+           }
+            
+      
+            
+            operand = randomGenerator.nextInt(range);
             equation = appendToEquation(equation, Integer.toString(operand), Character.toString(operator));
         }
-        equation += randomGenerator.nextInt(100);
-
-
-        return equation;
-    }
+     
+    return equation;
+  }
 }

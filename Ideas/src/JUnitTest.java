@@ -1,4 +1,11 @@
 /*
+ * NOTE:
+ * ------------------------------------------------------------------
+ * Tests were only for backend code. They will not work with frontend
+ * integration. Revert to older version on github to run theses tests
+ * __________________________________________________________________
+ */
+/*
  * import static org.junit.Assert.*;
  * 
  * import org.junit.Test;
@@ -38,3 +45,4 @@
  * 
  * }
  */
+ 
