@@ -1,7 +1,7 @@
 # NumMy by Team DoubleDown (88)
 ## Project Description
 NumMy is a math game developed on Eclipse using java and the swing framework. The main purpose of the game is to help K-12 students develop stronger math skills. This is accomplished by having a difficulty system generate questions according to a user’s difficulty setting. As a user gets more questions correct, the difficulty of the game will increase. To incentivize playing the game, a profile system is in place so users can track their progress and compete with different users. 
-## Team Members \n
+## Team Members 
 Cole Johnson-Product Manager, Michael Luo-Scrum Master, Manas Pandey-Dev Team Member
 ## How to launch NumMy
 After installing NumMy if the application does not run do the following steps:
